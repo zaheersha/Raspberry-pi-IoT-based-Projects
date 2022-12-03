@@ -1,0 +1,38 @@
+import RPi.GPIO as GPIO
+import spidev
+import time
+import os
+
+relay = 12
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(relay, GPIO.OUT)
+GPIO.output(relay, True)
+ 
+spi = spidev.SpiDev()
+spi.open(0,0)
+spi.max_speed_hz=1000000 
+
+def ReadChannel(channel):
+  adc = spi.xfer2([1,(8+channel)<<4,0])
+  data = ((adc[1]&3) << 8) + adc[2]
+  return data
+ 
+lm35_channel = 0
+ 
+delay = 0.5
+ 
+while True:
+ 
+  tempvalue = ReadChannel(lm35_channel)
+  print("Digital Value = ",tempvalue)
+  volts = (tempvalue * 5) / 1024		# volts = (DigitalValue in dec * 5v)/1024(2^10bits)
+  temperature = volts / (10.0 / 1000)		# Temperature = volts/10mV
+  print("Temperature = " + temperature + "°C")
+  if temperature > 30:
+	GPIO.output(relay, False)
+      	print('FAN ON')
+  else:
+      GPIO.output(relay, True)
+      print('FAN OFF')
+  time.sleep(delay)

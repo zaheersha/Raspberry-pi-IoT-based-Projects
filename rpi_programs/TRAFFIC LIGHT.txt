@@ -1,0 +1,29 @@
+import RPi.GPIO as GPIO
+import time
+
+r = 25		#GPIO 25
+y = 8		#GPIO 8
+g = 7		#GPIO 7
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(r, GPIO.OUT)
+GPIO.setup(y, GPIO.OUT)
+GPIO.setup(g, GPIO.OUT)
+GPIO.output(r, False)
+GPIO.output(y, False)
+GPIO.output(g, False)
+
+while True:
+    GPIO.output(r, True)
+    print('RED')
+    time.sleep(5)
+    GPIO.output(r, False)
+    GPIO.output(y, True)
+    print('YELLOW')
+    time.sleep(2)
+    GPIO.output(y, False)
+    GPIO.output(g, True)
+    print('GREEN')
+    time.sleep(10)
+    GPIO.output(g, False)

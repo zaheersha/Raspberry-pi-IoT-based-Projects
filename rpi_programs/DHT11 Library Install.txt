@@ -1,0 +1,4 @@
+
+(1) sudo pip3 install adafruit-circuitpython-dht
+
+(2) sudo apt-get install libgpiod2

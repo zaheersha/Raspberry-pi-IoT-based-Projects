@@ -1,0 +1,32 @@
+import RPi.GPIO as GPIO
+import time
+
+s1 = 23
+s2 = 24
+m1 = 5
+m2 = 6
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)     	#It disables the Warnings
+GPIO.setup(s1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(s2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(m1, GPIO.OUT)
+GPIO.setup(m2, GPIO.OUT)
+GPIO.output(m1, False)
+GPIO.output(m2, False)
+
+while True:
+    s1State = GPIO.input(s1)
+    s2State = GPIO.input(s2)
+    if s1State == 0:
+        GPIO.output(m1, True)
+        GPIO.output(m2, False)
+        print('Forward...')
+    elif s2State == 0:
+        GPIO.output(m1, False)
+        GPIO.output(m2, True)
+        print('Revesre...')
+    else:
+        GPIO.output(m1, False)
+        GPIO.output(m2, False)
+        print('Stop')

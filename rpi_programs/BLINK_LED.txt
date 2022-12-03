@@ -1,0 +1,14 @@
+import RPi.GPIO as GPIO
+import time
+
+led = 25
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)     #It disables the Warnings
+GPIO.setup(led,GPIO.OUT)  #Setting the led pin i.e 25 as ouput
+
+while True:
+    GPIO.output(led,True)
+    time.sleep(0.5)
+    GPIO.output(led,False)
+    time.sleep(0.5)

@@ -1,0 +1,17 @@
+import RPi.GPIO as GPIO
+import time
+
+led = 25
+sw = 24
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)     #It disables the Warnings
+GPIO.setup(led,GPIO.OUT)  #Setting the led pin i.e 25 as ouput
+GPIO.setup(sw, GPIO.IN,pull_up_down = GPIO.PUD_UP)  #Setting the sw pin i.e 24 pin as input
+
+while True:
+ st = GPIO.input(sw)
+ if st == 1:		#If sw is press
+  GPIO.output(led,1)	# LED ON
+ else:			#If sw is release
+  GPIO.output(led,0)    # LED OFF

@@ -1,0 +1,28 @@
+import RPi.GPIO as GPIO		#importing RPi.GPIO module as with name GPIO
+import time			#impoting time module to create delay
+
+smoke = 12			#GPIO 12 to LDR sensor (Input Device)
+led = 4			#GPIO 13 to LED (Output Device)
+m1=11
+m2=13
+GPIO.setmode(GPIO.BCM)		#Setting the pin configuration mode as BCM
+GPIO.setwarnings(False)		#Disabling warnings
+GPIO.setup(smoke, GPIO.IN)	#Setting the ldr pin i.e 12 pin as input 
+GPIO.setup(led, GPIO.OUT)	#Setting the led pin i.e 13 pin as output
+GPIO.output(led,False)		#Intialializing LED in OFF state
+GPIO.setup(m1, GPIO.OUT)	#Setting the led pin i.e 13 pin as output
+GPIO.output(m1,False)
+GPIO.setup(m2, GPIO.OUT)	#Setting the led pin i.e 13 pin as output
+GPIO.output(m2,False)
+while True:
+	smokest = GPIO.input(smoke)
+	if smokest == 1:		
+		GPIO.output(led, 1)    
+		GPIO.output(m1, 1) 
+		GPIO.output(m2, 0) 
+	
+	else:			
+		GPIO.output(led, 0)	
+		GPIO.output(m1, 0) 
+		GPIO.output(m2, 0) 	 
+	time.sleep(0.2)

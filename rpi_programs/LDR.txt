@@ -1,0 +1,22 @@
+import RPi.GPIO as GPIO		#importing RPi.GPIO module as with name GPIO
+import time			#impoting time module to create delay
+
+ldr = 12			#GPIO 12 to LDR sensor (Input Device)
+led = 13			#GPIO 13 to LED (Output Device)
+
+GPIO.setmode(GPIO.BCM)		#Setting the pin configuration mode as BCM
+GPIO.setwarnings(False)		#Disabling warnings
+GPIO.setup(ldr, GPIO.IN)	#Setting the ldr pin i.e 12 pin as input 
+GPIO.setup(led, GPIO.OUT)	#Setting the led pin i.e 13 pin as output
+
+GPIO.output(led,False)		#Intialializing LED in OFF state
+
+while True:
+	ldrst = GPIO.input(ldr)
+	if ldrst == 1:		#if no light
+	 GPIO.output(led, 1)    #LED ON
+	 print('No Sun Light, LED ON')
+	else:			#if there is light
+	 GPIO.output(led, 0)	#LED OFF
+	 print('Sun Light, LED OFF')
+	time.sleep(0.2)

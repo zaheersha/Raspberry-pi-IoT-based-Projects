@@ -1,0 +1,20 @@
+import RPi.GPIO as GPIO
+import time
+
+reedSwitch = 12
+buzzer = 16
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(reedSwitch, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(buzzer, GPIO.OUT)
+GPIO.output(buzzer, False)
+while True:
+  doorState = GPIO.input(reedSwitch)
+
+  if doorState == 1:
+     GPIO.output(buzzer, True)
+     print('Door Opened')
+  else:
+     GPIO.output(buzzer, False)
+     print('Door Closed')
+  time.sleep(0.2)

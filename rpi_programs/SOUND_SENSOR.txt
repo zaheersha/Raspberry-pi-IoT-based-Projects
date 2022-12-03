@@ -1,0 +1,52 @@
+import RPi.GPIO as GPIO
+import time
+
+#GPIO SETUP
+soundPin = 12
+r = 11
+y = 13
+g = 15
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+GPIO.setup(soundPin, GPIO.IN)
+GPIO.setup(r, GPIO.OUT)
+GPIO.setup(y, GPIO.OUT)
+GPIO.setup(g, GPIO.OUT)
+GPIO.output(r, False)
+GPIO.output(y, False)
+GPIO.output(g, False)
+clap = 0
+
+def callback(soundPin):
+        global clap
+        if GPIO.input(soundPin):
+                print("Sound Detected!")
+                clap += 1
+        else:
+                print("Sound Detected!")
+                clap += 1
+        if clap == 1:
+            print('1st Clap')
+            GPIO.output(r, True)
+        elif clap == 2:
+            print('2nd Clap')
+            #GPIO.output(r, False)
+            GPIO.output(y, True)
+        elif clap == 3:
+            print('3rd Clap')
+            #GPIO.output(y, False)
+            GPIO.output(g, True)
+        elif clap == 4:
+            print('4th Clap')
+            GPIO.output(r, False)
+            GPIO.output(y, False)
+            GPIO.output(g, False)
+            clap = 0
+
+GPIO.add_event_detect(soundPin, GPIO.BOTH, bouncetime=300)  # let us know when the pin goes HIGH or LOW
+GPIO.add_event_callback(soundPin, callback)  # assign function to GPIO PIN, Run function on change
+
+# infinite loop
+while True:
+   time.sleep(1)
